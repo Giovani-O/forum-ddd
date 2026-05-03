@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Giovani-O/forum-ddd#readme",
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",
+    "@faker-js/faker": "^10.4.0",
     "@types/node": "^25.6.0",
     "typescript": "^6.0.3",
     "vite-tsconfig-paths": "^6.1.1",
