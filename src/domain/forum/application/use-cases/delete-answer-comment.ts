@@ -1,3 +1,4 @@
+import { type Either, failure, success } from '@/core/either.js'
 import type { AnswerCommentsRepository } from '../repositories/answer-comment-repository.js'
 
 interface DeleteAnswerCommentUseCaseRequest {
@@ -5,9 +6,7 @@ interface DeleteAnswerCommentUseCaseRequest {
   answerCommentId: string
 }
 
-interface DeleteAnswerCommentUseCaseResponse {
-  message: string
-}
+type DeleteAnswerCommentUseCaseResponse = Either<string, {}>
 
 export class DeleteAnswerCommentUseCase {
   constructor(private answerCommentsRepository: AnswerCommentsRepository) {}
@@ -20,15 +19,15 @@ export class DeleteAnswerCommentUseCase {
       await this.answerCommentsRepository.findById(answerCommentId)
 
     if (!answerComment) {
-      throw new Error('Answer comment not found.')
+      return failure('Answer comment not found.')
     }
 
     if (answerComment.authorId.toString() !== authorId) {
-      throw new Error('Not allowed')
+      return failure('Not allowed')
     }
 
     await this.answerCommentsRepository.delete(answerComment)
 
-    return { message: 'Answer comment deleted successfully.' }
+    return success({})
   }
 }
