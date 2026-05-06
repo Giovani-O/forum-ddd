@@ -1,6 +1,6 @@
+import { makeQuestion } from '@test/factories/make-question.js'
+import { InMemoryQuestionsRepository } from '@test/repositories/in-memory-questions-repository.js'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { makeQuestion } from '../../../../../test/factories/make-question.js'
-import { InMemoryQuestionsRepository } from '../../../../../test/repositories/in-memory-questions-repository.js'
 import { Slug } from '../../enterprise/entities/value-objects/slug.js'
 import { GetQuestionBySlugUseCase } from './get-question-by-slug.js'
 

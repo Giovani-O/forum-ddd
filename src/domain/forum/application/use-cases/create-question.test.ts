@@ -1,5 +1,5 @@
+import { InMemoryQuestionsRepository } from '@test/repositories/in-memory-questions-repository.js'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryQuestionsRepository } from '../../../../../test/repositories/in-memory-questions-repository.js'
 import type { QuestionsRepository } from '../repositories/question.repository.js'
 import { CreateQuestionUseCase } from './create-question.js'
 

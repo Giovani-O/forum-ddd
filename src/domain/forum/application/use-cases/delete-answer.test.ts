@@ -1,7 +1,7 @@
+import { makeAnswer } from '@test/factories/make-answer.js'
+import { InMemoryAnswersRepository } from '@test/repositories/in-memory-answers-repository.js'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
-import { makeAnswer } from '../../../../../test/factories/make-answer.js'
-import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository.js'
 import { DeleteAnswerUseCase } from './delete-answer.js'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
