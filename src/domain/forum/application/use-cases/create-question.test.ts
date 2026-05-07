@@ -13,11 +13,14 @@ describe('Create question tests', () => {
   })
 
   it('should create a question', async () => {
-    const { question } = await sut.execute({
+    const result = await sut.execute({
       authorId: '1',
       title: 'Is this a question?',
       content: 'I am not sure',
     })
+
+    expect(result.isSuccess()).toBe(true)
+    const { question } = result.value
 
     expect(question.id).toBeDefined()
     expect(question.title).toBe('Is this a question?')
