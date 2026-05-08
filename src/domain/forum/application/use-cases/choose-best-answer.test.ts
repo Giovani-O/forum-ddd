@@ -6,6 +6,8 @@ import { Answer } from '../../enterprise/entities/answer.js'
 import { Question } from '../../enterprise/entities/question.js'
 import { Slug } from '../../enterprise/entities/value-objects/slug.js'
 import { ChooseQuestionBestAnswerUseCase } from './choose-best-answer.js'
+import { ResourceNotFoundError } from './errors/resource-not-found.error.js'
+import { NotAllowedError } from './errors/not-allowed.error.js'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -53,19 +55,21 @@ describe('Choose Question Best Answer Use Case', () => {
       authorId: authorId.toString(),
     })
 
-    expect(result.question.bestAnswerId?.toString()).toBe(answerId.toString())
+    expect(result.isSuccess()).toBe(true)
+    expect(result.value.question.bestAnswerId?.toString()).toBe(answerId.toString())
     expect(inMemoryQuestionsRepository.items[0]?.bestAnswerId?.toString()).toBe(
       answerId.toString(),
     )
   })
 
   it('should throw if answer is not found', async () => {
-    await expect(
-      sut.execute({
-        answerId: 'non-existent-answer',
-        authorId: 'author-1',
-      }),
-    ).rejects.toThrow('Answer not found.')
+    const result = await sut.execute({
+      answerId: 'non-existent-answer',
+      authorId: 'author-1',
+    })
+
+    expect(result.isFailure()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should throw if question is not found', async () => {
@@ -81,12 +85,13 @@ describe('Choose Question Best Answer Use Case', () => {
 
     inMemoryAnswersRepository.items.push(answer)
 
-    await expect(
-      sut.execute({
-        answerId: answerId.toString(),
-        authorId: 'author-1',
-      }),
-    ).rejects.toThrow('Question not found.')
+    const result = await sut.execute({
+      answerId: answerId.toString(),
+      authorId: 'author-1',
+    })
+
+    expect(result.isFailure()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should throw if author is not the question author', async () => {
@@ -117,11 +122,12 @@ describe('Choose Question Best Answer Use Case', () => {
     inMemoryQuestionsRepository.items.push(question)
     inMemoryAnswersRepository.items.push(answer)
 
-    await expect(
-      sut.execute({
-        answerId: answerId.toString(),
-        authorId: differentAuthorId.toString(),
-      }),
-    ).rejects.toThrow('Not allowed.')
+    const result = await sut.execute({
+      answerId: answerId.toString(),
+      authorId: differentAuthorId.toString(),
+    })
+
+    expect(result.isFailure()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

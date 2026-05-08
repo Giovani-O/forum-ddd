@@ -26,10 +26,13 @@ describe('Fetch Question Answers', () => {
       makeAnswer({ questionId: new UniqueEntityID('another-question') }),
     )
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId,
       page: 1,
     })
+
+    expect(result.isSuccess()).toBe(true)
+    const { answers } = result.value
 
     expect(answers).toHaveLength(2)
     expect(answers).toEqual([
@@ -47,10 +50,13 @@ describe('Fetch Question Answers', () => {
       )
     }
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId,
       page: 2,
     })
+
+    expect(result.isSuccess()).toBe(true)
+    const { answers } = result.value
 
     expect(answers).toHaveLength(2)
   })

@@ -32,10 +32,13 @@ describe('Fetch Answer Comments', () => {
       }),
     )
 
-    const { answerComments } = await sut.execute({
+    const result = await sut.execute({
       answerId: 'answer-1',
       page: 1,
     })
+
+    expect(result.isSuccess()).toBe(true)
+    const { answerComments } = result.value
 
     expect(answerComments).toHaveLength(3)
   })
@@ -49,10 +52,13 @@ describe('Fetch Answer Comments', () => {
       )
     }
 
-    const { answerComments } = await sut.execute({
+    const result = await sut.execute({
       answerId: 'answer-1',
       page: 2,
     })
+
+    expect(result.isSuccess()).toBe(true)
+    const { answerComments } = result.value
 
     expect(answerComments).toHaveLength(2)
   })
