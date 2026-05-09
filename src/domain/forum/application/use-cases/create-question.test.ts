@@ -1,7 +1,7 @@
 import { InMemoryQuestionsRepository } from '@test/repositories/in-memory-questions-repository.js'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { CreateQuestionUseCase } from './create-question.js'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { CreateQuestionUseCase } from './create-question.js'
 
 let inMemoryRepository: InMemoryQuestionsRepository
 let sut: CreateQuestionUseCase // System Under Test
@@ -25,8 +25,10 @@ describe('Create question tests', () => {
 
     expect(question.id).toBeDefined()
     expect(question.title).toEqual('Is this a question?')
-    expect(inMemoryRepository.items[0]?.attachments).toHaveLength(2)
-    expect(inMemoryRepository.items[0]?.attachments).toEqual([
+    expect(inMemoryRepository.items[0]?.attachments.currentItems).toHaveLength(
+      2,
+    )
+    expect(inMemoryRepository.items[0]?.attachments.currentItems).toEqual([
       expect.objectContaining({ attachmentId: new UniqueEntityID('1') }),
       expect.objectContaining({ attachmentId: new UniqueEntityID('2') }),
     ])
