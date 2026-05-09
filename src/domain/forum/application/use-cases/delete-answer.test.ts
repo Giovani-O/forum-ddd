@@ -4,7 +4,7 @@ import { InMemoryAnswersRepository } from '@test/repositories/in-memory-answers-
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { DeleteAnswerUseCase } from './delete-answer.js'
-import { NotAllowedError } from './errors/not-allowed.error.js'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed.error.js'
 import { makeAnswerAttachment } from '@test/factories/make-answer-attachment.js'
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository

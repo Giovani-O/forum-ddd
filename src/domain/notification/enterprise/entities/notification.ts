@@ -7,7 +7,7 @@ export interface NotificationProps {
   title: string
   content: string
   createdAt: Date
-  read?: Date
+  readAt?: Date
 }
 
 export class Notification extends Entity<NotificationProps> {
@@ -27,8 +27,12 @@ export class Notification extends Entity<NotificationProps> {
     return this._props.createdAt
   }
 
-  get read() {
-    return this._props.read
+  get readAt() {
+    return this._props.readAt
+  }
+
+  read() {
+    this._props.readAt = new Date()
   }
 
   static create(

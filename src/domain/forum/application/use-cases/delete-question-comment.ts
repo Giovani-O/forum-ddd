@@ -1,7 +1,7 @@
 import { type Either, failure, success } from '@/core/either.js'
 import type { QuestionCommentsRepository } from '../repositories/question-comments.repository.js'
-import { NotAllowedError } from './errors/not-allowed.error.js'
-import { ResourceNotFoundError } from './errors/resource-not-found.error.js'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed.error.js'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found.error.js'
 
 interface DeleteQuestionCommentUseCaseRequest {
   authorId: string
