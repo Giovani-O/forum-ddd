@@ -1,7 +1,13 @@
+/**
+ * Question é um aggregate root, representando uma pergunta no fórum
+ * Attachment é um aggregate, que só pode ser criado/editado a partir de uma Question
+ */
+
 import dayjs from 'dayjs'
-import { Entity } from '@/core/entities/entity.js'
+import { AggregateRoot } from '@/core/entities/aggregate-root.js'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Optional } from '@/core/types/optional.js'
+import { QuestionAttachmentList } from './question-attachment-list.js'
 import { Slug } from './value-objects/slug.js'
 
 export interface QuestionProps {
@@ -10,11 +16,12 @@ export interface QuestionProps {
   title: string
   content: string
   slug: Slug
+  attachments: QuestionAttachmentList
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Question extends Entity<QuestionProps> {
+export class Question extends AggregateRoot<QuestionProps> {
   get authorId() {
     return this._props.authorId
   }
@@ -33,6 +40,10 @@ export class Question extends Entity<QuestionProps> {
 
   get slug() {
     return this._props.slug
+  }
+
+  get attachments() {
+    return this._props.attachments
   }
 
   get createdAt() {
@@ -62,6 +73,11 @@ export class Question extends Entity<QuestionProps> {
     this.touch()
   }
 
+  set attachments(attachments: QuestionAttachmentList) {
+    this._props.attachments = attachments
+    this.touch()
+  }
+
   set content(content: string) {
     this._props.content = content
     this.touch()
@@ -73,13 +89,14 @@ export class Question extends Entity<QuestionProps> {
   }
 
   static create(
-    props: Optional<QuestionProps, 'createdAt' | 'slug'>,
+    props: Optional<QuestionProps, 'createdAt' | 'slug' | 'attachments'>,
     id?: UniqueEntityID,
   ) {
     const question = new Question(
       {
         ...props,
         slug: props.slug ?? Slug.createFromText(props.title),
+        attachments: props.attachments ?? new QuestionAttachmentList(),
         createdAt: props.createdAt ?? new Date(),
       },
       id,
