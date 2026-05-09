@@ -2,8 +2,8 @@ import { type Either, success } from '@/core/either.js'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { Question } from '../../enterprise/entities/question.js'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
-import type { QuestionsRepository } from '../repositories/question.repository.js'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js'
+import type { QuestionsRepository } from '../repositories/question.repository.js'
 
 interface CreateQuestionUseCaseRequest {
   authorId: string

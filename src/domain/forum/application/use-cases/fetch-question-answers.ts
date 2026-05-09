@@ -1,4 +1,4 @@
-import { success, type Either } from '@/core/either.js'
+import { type Either, success } from '@/core/either.js'
 import type { Answer } from '../../enterprise/entities/answer.js'
 import type { AnswersRepository } from '../repositories/answers.repository.js'
 

@@ -1,4 +1,6 @@
+import { InMemoryAnswerAttachmentsRepository } from '@test/repositories/in-memory-answer-attachments-repository.js'
 import { InMemoryAnswersRepository } from '@test/repositories/in-memory-answers-repository.js'
+import { InMemoryQuestionAttachmentsRepository } from '@test/repositories/in-memory-question-attachments-repository.js'
 import { InMemoryQuestionsRepository } from '@test/repositories/in-memory-questions-repository.js'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
@@ -6,17 +8,27 @@ import { Answer } from '../../enterprise/entities/answer.js'
 import { Question } from '../../enterprise/entities/question.js'
 import { Slug } from '../../enterprise/entities/value-objects/slug.js'
 import { ChooseQuestionBestAnswerUseCase } from './choose-best-answer.js'
-import { ResourceNotFoundError } from './errors/resource-not-found.error.js'
 import { NotAllowedError } from './errors/not-allowed.error.js'
+import { ResourceNotFoundError } from './errors/resource-not-found.error.js'
 
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: ChooseQuestionBestAnswerUseCase
 
 describe('Choose Question Best Answer Use Case', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
+    inMemoryAnswerAttachmentsRepository =
+      new InMemoryAnswerAttachmentsRepository()
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository,
+    )
+    inMemoryAnswersRepository = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachmentsRepository,
+    )
     sut = new ChooseQuestionBestAnswerUseCase(
       inMemoryQuestionsRepository,
       inMemoryAnswersRepository,
@@ -56,10 +68,14 @@ describe('Choose Question Best Answer Use Case', () => {
     })
 
     expect(result.isSuccess()).toBe(true)
-    expect(result.value.question.bestAnswerId?.toString()).toBe(answerId.toString())
-    expect(inMemoryQuestionsRepository.items[0]?.bestAnswerId?.toString()).toBe(
-      answerId.toString(),
-    )
+    if (result.isSuccess()) {
+      expect(result.value.question.bestAnswerId?.toString()).toBe(
+        answerId.toString(),
+      )
+      expect(
+        inMemoryQuestionsRepository.items[0]?.bestAnswerId?.toString(),
+      ).toBe(answerId.toString())
+    }
   })
 
   it('should throw if answer is not found', async () => {

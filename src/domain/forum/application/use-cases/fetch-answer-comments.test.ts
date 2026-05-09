@@ -38,7 +38,7 @@ describe('Fetch Answer Comments', () => {
     })
 
     expect(result.isSuccess()).toBe(true)
-    const { answerComments } = result.value
+    const { answerComments } = result.value!
 
     expect(answerComments).toHaveLength(3)
   })
@@ -58,7 +58,7 @@ describe('Fetch Answer Comments', () => {
     })
 
     expect(result.isSuccess()).toBe(true)
-    const { answerComments } = result.value
+    const { answerComments } = result.value!
 
     expect(answerComments).toHaveLength(2)
   })
