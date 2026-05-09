@@ -1,14 +1,20 @@
+import { InMemoryQuestionAttachmentsRepository } from '@test/repositories/in-memory-question-attachments-repository.js'
 import { InMemoryQuestionsRepository } from '@test/repositories/in-memory-questions-repository.js'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { CreateQuestionUseCase } from './create-question.js'
 
 let inMemoryRepository: InMemoryQuestionsRepository
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let sut: CreateQuestionUseCase // System Under Test
 
 describe('Create question tests', () => {
   beforeEach(() => {
-    inMemoryRepository = new InMemoryQuestionsRepository()
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
+    inMemoryRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository,
+    )
     sut = new CreateQuestionUseCase(inMemoryRepository)
   })
 
