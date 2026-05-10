@@ -2,6 +2,7 @@ import type { PaginationParams } from '@/domain/forum/application/repositories/p
 import type { QuestionsRepository } from '@/domain/forum/application/repositories/question.repository.js'
 import type { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository.js'
 import type { Question } from '@/domain/forum/enterprise/entities/question.js'
+import { DomainEvents } from '@/core/events/domain-events.js'
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = []
@@ -28,10 +29,6 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     return questions
   }
 
-  async create(question: Question) {
-    this.items.push(question)
-  }
-
   async findBySlug(slug: string) {
     const question = this.items.find((item) => item.slug.value === slug)
 
@@ -42,10 +39,18 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     return question
   }
 
+  async create(question: Question) {
+    this.items.push(question)
+
+    DomainEvents.dispatchEventsForAggregate(question.id)
+  }
+
   async save(question: Question) {
     const itemIndex = this.items.findIndex((item) => item.id === question.id)
 
     this.items[itemIndex] = question
+
+    DomainEvents.dispatchEventsForAggregate(question.id)
   }
 
   async delete(question: Question) {
