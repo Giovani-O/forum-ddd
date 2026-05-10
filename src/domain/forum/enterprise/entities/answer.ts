@@ -1,8 +1,8 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root.js'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Optional } from '@/core/types/optional.js'
-import { AnswerAttachmentList } from './answer-attachment-list.js'
 import { AnswerCreatedEvent } from '@/domain/forum/enterprise/events/answer-created-event.js'
+import { AnswerAttachmentList } from './answer-attachment-list.js'
 
 export interface AnswerProps {
   authorId: UniqueEntityID
