@@ -1,9 +1,9 @@
 import { type Either, success } from '@/core/either.js'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { Answer } from '../../enterprise/entities/answer.js'
-import type { AnswersRepository } from '../repositories/answers.repository.js'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment.js'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list.js'
+import type { AnswersRepository } from '../repositories/answers.repository.js'
 
 interface AnswerQuestionUseCaseRequest {
   instructorId: string

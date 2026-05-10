@@ -15,7 +15,7 @@ import {
 } from '../use-cases/send-notification.js'
 import { OnAnswerCreated } from './on-answer-created.js'
 
-let inMemoryQuestionAttachmentsRepoitory: InMemoryQuestionAttachmentsRepository
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryAnswerAttachmentsRepository: AnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -30,10 +30,10 @@ let sendNotificationExecuteSpy: MockInstance<
 
 describe('On answer created', () => {
   beforeEach(() => {
-    inMemoryQuestionAttachmentsRepoitory =
+    inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentsRepoitory,
+      inMemoryQuestionAttachmentsRepository,
     )
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
