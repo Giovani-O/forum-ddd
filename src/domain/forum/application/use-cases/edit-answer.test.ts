@@ -5,7 +5,7 @@ import { InMemoryAnswersRepository } from '@test/repositories/in-memory-answers-
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { EditAnswerUseCase } from './edit-answer.js'
-import { NotAllowedError } from './errors/not-allowed.error.js'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed.error.js'
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
